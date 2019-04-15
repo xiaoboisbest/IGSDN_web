@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <!-- 驼峰式命名与下划线命名绑定 -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!-- 打印查询语句 -->
+        <setting name="logImpl" value="STDOUT_LOGGING" />
+    </settings>
+    <!-- 给JavaBean起别名 -->
+    <typeAliases>
+        <package name="cn.igsdn.domain"></package>
+    </typeAliases>
+    <!-- 配置pageHelper -->
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor"></plugin>
+    </plugins>
+</configuration>
