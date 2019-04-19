@@ -1,53 +1,51 @@
 <!DOCTYPE html>
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>IGSDN - 用户登录</title>
-  <link rel="stylesheet" href="http://localhost:8080/IGSDN/static/css/style.css">
-  <link href="http://localhost:8080/IGSDN/static/css/popup-box.css" rel="stylesheet" type="text/css" media="all">
-  <script src="http://localhost:8080/IGSDN/static/js/jquery.min.js"></script>
-  <script src="http://localhost:8080/IGSDN/static/js/jquery.magnific-popup.js" type="text/javascript"></script>
-  <script>
-    window.onbeforeunload = function () {
-      document.documentElement.scrollTop = 0;  //ie下
-      document.body.scrollTop = 0;  //非ie
-    }
-    let scrollHeight;
-    $(document).ready(function () {
-      $('.popup-with-zoom-anim').magnificPopup({
-        type: 'inline',
-
-        fixedContentPos: false,
-        fixedBgPos: true,
-        overflowY: 'auto',
-        closeBtnInside: true,
-        preloader: false,
-        midClick: true,
-        removalDelay: 300,
-        mainClass: 'my-mfp-zoom-in'
-      })
-      $(".goSignup").on("click", () => {
-        scrollHeight = $("body").prop("scrollHeight")
-        $("html,body").animate({scrollTop: scrollHeight}, 800)
-      })
-      $(".goSignin").on("click", () => {
-        $("html,body").animate({scrollTop: 0}, 800)
-      })
-    })
-  </script>
-  <link href="http://localhost:8080/IGSDN/static/css/genUser_login.14aaad89c9b3e987ef02e4eb7293e4be.css"
-        rel="stylesheet">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>IGSDN - 用户登录</title>
+    <link rel="stylesheet" href="http://localhost:8080/IGSDN/static/css/style.css">
+    <link href="http://localhost:8080/IGSDN/static/css/popup-box.css" rel="stylesheet" type="text/css" media="all">
+    <script src="http://localhost:8080/IGSDN/static/js/jquery.min.js"></script>
+    <script src="http://localhost:8080/IGSDN/static/js/jquery.magnific-popup.js" type="text/javascript"></script>
+    <script>
+        window.onbeforeunload = function () {
+            document.documentElement.scrollTop = 0;  //ie下
+            document.body.scrollTop = 0;  //非ie
+        }
+        let scrollHeight;
+        $(document).ready(function () {
+            $('.popup-with-zoom-anim').magnificPopup({
+                type: 'inline',
+                fixedContentPos: false,
+                fixedBgPos: true,
+                overflowY: 'auto',
+                closeBtnInside: true,
+                preloader: false,
+                midClick: true,
+                removalDelay: 300,
+                mainClass: 'my-mfp-zoom-in'
+            })
+            $(".goSignup").on("click", () => {
+                scrollHeight = $("body").prop("scrollHeight")
+                $("html,body").animate({scrollTop: scrollHeight}, 800)
+            })
+            $(".goSignin").on("click", () => {
+                $("html,body").animate({scrollTop: 0}, 800)
+            })
+        })
+    </script>
+    <link href="http://localhost:8080/IGSDN/static/css/genUser_login.a567152aa6645d9a929f56f2a5cf7356.css" rel="stylesheet">
 </head>
 <body style="background-image: url('http://localhost:8080/IGSDN/static/image/bg-img.png')">
 <h1>IGSDN - 用户登录</h1>
 <div id="app"></div>
 <div class="footer-w3l">
-  <p class="agileinfo"> &copy;IGSDN版权所有
-  </p>
+    <p class="agileinfo"> &copy;IGSDN版权所有
+    </p>
 </div>
 <script type="text/javascript" src="http://localhost:8080/IGSDN/static/js/manifest.0c1cd46d93b12dcd0191.js"></script>
 <script type="text/javascript" src="http://localhost:8080/IGSDN/static/js/vendor.a0bd1aa69365ebac0784.js"></script>
-<script type="text/javascript" src="http://localhost:8080/IGSDN/static/js/genUser_login.20f1d2844ebb6aae6386.js"></script>
+<script type="text/javascript" src="http://localhost:8080/IGSDN/static/js/genUser_login.45e79c14c7325c0a2d50.js"></script>
 </body>
 </html>
