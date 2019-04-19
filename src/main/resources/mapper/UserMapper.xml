@@ -77,11 +77,18 @@
   <sql id="Gen_User_DTO_Column_List">
     ID, gen_user_level, uname
   </sql>
+
   <select id="selectGenUserDTOByPrimaryKey" resultType="cn.igsdn.dto.GenUserDTO">
     select
     <include refid="Gen_User_DTO_Column_List" />
     from ig_user
     where password = #{arg1} and (tel = #{arg0} or email = #{arg0}) AND admin_user_level = '0'
+  </select>
+
+  <select id="selectByLoginName" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(*)
+    from ig_user
+    where tel = #{arg0} or email = #{arg0}
   </select>
   <select id="selectByExample" parameterType="cn.igsdn.domain.UserExample" resultMap="BaseResultMap">
     select
@@ -116,14 +123,17 @@
   <insert id="insert" parameterType="cn.igsdn.domain.User">
     insert into ig_user (ID, password, gen_user_level, 
       admin_user_level, tel, email, 
-      name, age, gender)
+      name, age, gender,uname)
     values (#{id,jdbcType=INTEGER}, #{password,jdbcType=VARCHAR}, #{genUserLevel,jdbcType=SMALLINT}, 
       #{adminUserLevel,jdbcType=SMALLINT}, #{tel,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{name,jdbcType=VARCHAR}, #{age,jdbcType=VARCHAR}, #{gender,jdbcType=BIT})
+      #{name,jdbcType=VARCHAR}, #{age,jdbcType=VARCHAR}, #{gender,jdbcType=BIT},#{uname,jdbcType=VARCHAR})
   </insert>
+
+
+
   <insert id="insertSelective" parameterType="cn.igsdn.domain.User">
     insert into ig_user
-    <trim prefix="(" suffix=")" suffixOverrides=",">
+    <trim prefix=" (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         ID,
       </if>
@@ -131,10 +141,10 @@
         password,
       </if>
       <if test="genUserLevel != null">
-        gen_user_level,
+        genUserLevel,
       </if>
       <if test="adminUserLevel != null">
-        admin_user_level,
+    adminUserLevel,
       </if>
       <if test="tel != null">
         tel,
@@ -150,6 +160,9 @@
       </if>
       <if test="gender != null">
         gender,
+      </if>
+      <if test="uname != null">
+        uname
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -180,8 +193,14 @@
       <if test="gender != null">
         #{gender,jdbcType=BIT},
       </if>
+      <if test="uname != null">
+        #{uname,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
+
+
+
   <select id="countByExample" parameterType="cn.igsdn.domain.UserExample" resultType="java.lang.Long">
     select count(*) from ig_user
     <if test="_parameter != null">

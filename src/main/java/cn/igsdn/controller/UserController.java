@@ -1,12 +1,10 @@
 package cn.igsdn.controller;
 
+import cn.igsdn.domain.User;
 import cn.igsdn.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.Map;
@@ -16,9 +14,9 @@ public class UserController {
     @Autowired
     UserService userService;
 
-
     @RequestMapping(value = "/genUser/login")
-    public String login() {
+    public String login(User user) {
+
         return "genUser/login";
     }
 
@@ -37,6 +35,39 @@ public class UserController {
     @RequestMapping(value = "/genUser/index")
     public String userIndex() {
         return "genUser/index";
+    }
+
+    /**
+     * 检查输入的用户名是对数据库进行检查，查看是否注册过
+     * @param loginName
+     * @return
+     */
+    @RequestMapping("/genUser/checkRegister")
+    public String checkRegister(@RequestParam(value="loginName")String loginName) {
+        String msg = null;
+        return msg;
+    }
+
+    /**
+     * 注册：
+     *   将前台信息注册到数据库中
+     * @param map
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/genUser/register")
+    public Integer register(@RequestBody Map<String, String> map) {
+        Integer msg = null;// 1-注册成功 0-注册失败 2-注册过
+        if (userService.checkRegister(map.get("Loginname"))) {
+            msg = 2;
+        } else if (userService.register(map)) {
+            //进行注册
+            msg = 1;
+        } else if (!userService.register(map)) {
+            //注册失败
+            msg = 0;
+        }
+        return msg;
     }
 
 }

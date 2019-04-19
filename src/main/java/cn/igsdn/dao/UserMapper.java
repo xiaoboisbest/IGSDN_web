@@ -16,13 +16,14 @@ public interface UserMapper {
 
     int deleteByPrimaryKey(Integer id);
 
-    int insert(User record);
+    Long insert(User record);
 
     int insertSelective(User record);
 
     List<User> selectByExample(UserExample example);
 
     User selectByPrimaryKey(Integer id);
+    int selectByLoginName(String LoginName);
 
     int updateByExampleSelective(@Param("record") User record, @Param("example") UserExample example);
 
