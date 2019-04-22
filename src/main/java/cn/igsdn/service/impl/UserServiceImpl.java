@@ -3,11 +3,9 @@ package cn.igsdn.service.impl;
 import cn.igsdn.dao.UserMapper;
 import cn.igsdn.domain.User;
 import cn.igsdn.service.UserService;
+import cn.igsdn.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Map;
-import java.util.regex.Pattern;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
@@ -15,76 +13,74 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserMapper userMapper;
 
-    String MATCH_MOBILE = "^1[3456789]\\d{9}$";
-    String MATCH_EMAIL = "^[A-Za-z0-9\\u4e00-\\u9fa5]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$";
-
     public Object login(int type, String loginName, String password) {
-        switch (type) {
-            case 0:
-                return null;
-            case 1: {
-                return userMapper.selectGenUserDTOByPrimaryKey(loginName, password);
+        try {
+            switch (type) { // 登陆方式（0：管理员；1：普通用户）
+                case 0:
+                    return null;
+                case 1: {
+                    return userMapper.selectGenUserDTOByPrimaryKey(loginName, password);
+                }
             }
+        } catch (Exception e) {
+            return null;
         }
         return null;
     }
 
-    public String isEmailOrTel(String LoginName){
-        String result = null;
-        if(Pattern.matches(MATCH_MOBILE,LoginName)){
-            result = "mobile";
-        }else if(Pattern.matches(MATCH_EMAIL,LoginName)){
-            result = "email";
-        }
-        return result;
-    }
 
-    public Boolean checkRegister(String LoginName) {
-        boolean result= false;
-        try{
-
-            if(Pattern.matches(MATCH_MOBILE,LoginName)||Pattern.matches(MATCH_EMAIL,LoginName)){
-
-                int i = userMapper.selectByLoginName(LoginName);
-                System.out.println(i);
-                if(i==0){
-                    result = false;//
-                }else if(i==1){
-                    result = true;
+    public Boolean checkRegister(String loginName) {
+        try {
+            if (StringUtils.isloginName(loginName)) {
+                int result = userMapper.selectByLoginName(loginName);
+//                System.out.println("验证结果：" + result);
+                if (result != 0) {
+                    return false; // 用户名重复，不可注册
+                } else {
+                    return true;
                 }
-        }
-            return result;
+            }
         } catch (Exception e) {
-            e.printStackTrace();
             return null;
         }
+        return null;
     }
 
-    public Boolean register(Map<String, String> map) {
-        int result = 0;
-        User user= new User();
-            user.setUname(map.get("Uname"));
-            user.setPassword(map.get("Password1"));
-            String s = isEmailOrTel(map.get("Loginname"));
-            if("mobile".equals(s)){
-                user.setTel(map.get("Loginname"));
+    public Boolean register(String loginName, String password, String uname) {
+        if (!StringUtils.isNotBlank(loginName) || !StringUtils.isNotBlank(uname) || !StringUtils.isNotBlank(password)) {
+//          System.out.println("输入为空");
+            return false;
+        }
+        if (uname.trim().length() > 10 || password.trim().length() > 20) {
+//          System.out.println("输入长度过大");
+            return false;
+        }
+        Boolean b = checkRegister(loginName);
+        if (b == null || !b) {
+//          System.out.println("用户已注册");
+            return false;
+        }
+        String s = StringUtils.checkStringType(loginName);
+        User user = new User();
+        user.setUname(uname);
+        user.setPassword(password);
 
-            }else if("email".equals(s)){
-                user.setEmail(map.get("Loginname"));
-            }
-            try {
-                result = userMapper.insertSelective(user);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
+        if (StringUtils.TEL_STRING.equals(s)) {
+            user.setTel(loginName);
 
-            System.out.println(result);
+        } else if (StringUtils.EMAIL_STRING.equals(s)) {
+            user.setEmail(loginName);
+        }
+        try {
+            int result = userMapper.insertSelective(user);
+//          System.out.println("插入结果：" + result);
             if (result != 0) {
                 return true;
             } else {
                 return false;
             }
-
-
+        } catch (Exception e) {
+            return null;
+        }
     }
 }
