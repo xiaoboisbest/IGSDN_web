@@ -1,11 +1,12 @@
 package cn.igsdn.service;
 
-import java.util.Map;
-
 public interface UserService {
+    // 登陆
     public Object login(int Type, String loginName, String password);
-    // 检查是否注册过
-    public Boolean checkRegister(String LocalName);
-    // register
-    public Boolean register(Map<String,String> map);
+
+    // 检查登录名
+    public Boolean checkRegister(String loginName);
+
+    // 注册
+    public Boolean register(String loginName, String password, String uname);
 }

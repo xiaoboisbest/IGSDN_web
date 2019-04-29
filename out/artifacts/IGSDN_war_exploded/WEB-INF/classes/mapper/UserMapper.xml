@@ -128,9 +128,6 @@
       #{adminUserLevel,jdbcType=SMALLINT}, #{tel,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{name,jdbcType=VARCHAR}, #{age,jdbcType=VARCHAR}, #{gender,jdbcType=BIT},#{uname,jdbcType=VARCHAR})
   </insert>
-
-
-
   <insert id="insertSelective" parameterType="cn.igsdn.domain.User">
     insert into ig_user
     <trim prefix=" (" suffix=")" suffixOverrides=",">
@@ -198,9 +195,6 @@
       </if>
     </trim>
   </insert>
-
-
-
   <select id="countByExample" parameterType="cn.igsdn.domain.UserExample" resultType="java.lang.Long">
     select count(*) from ig_user
     <if test="_parameter != null">
