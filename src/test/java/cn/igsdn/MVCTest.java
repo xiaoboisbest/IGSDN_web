@@ -16,11 +16,8 @@
 //import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 //import org.springframework.web.context.WebApplicationContext;
 //
-//import java.util.List;
-//
 ///**
 // * 使用Spring测试模块提供的测试请求功能
-// *
 // */
 //@RunWith(SpringJUnit4ClassRunner.class)
 //@WebAppConfiguration
@@ -48,13 +45,9 @@
 //        System.out.println("总记录数：" + pageInfo.getTotal());
 //        System.out.println("在页面需要连续显示的页码：");
 //        for (int i : pageInfo.getNavigatepageNums()) {
-//            System.out.print(i+" ");
+//            System.out.print(i + " ");
 //        }
 //        System.out.println();
-//        List<Employee> list = pageInfo.getList();
-//        for (Employee employee : list) {
-//            System.out.println(employee);
-//        }
 //
 //    }
 //}

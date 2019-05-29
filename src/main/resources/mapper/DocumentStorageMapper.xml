@@ -11,14 +11,12 @@
     <result column="key1" jdbcType="VARCHAR" property="key1" />
     <result column="key2" jdbcType="VARCHAR" property="key2" />
     <result column="key3" jdbcType="VARCHAR" property="key3" />
+    <result column="intro" jdbcType="VARCHAR" property="intro" />
     <result column="is_public" jdbcType="BIT" property="isPublic" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="format" jdbcType="INTEGER" property="format" />
     <result column="uploader" jdbcType="INTEGER" property="uploader" />
     <result column="category" jdbcType="INTEGER" property="category" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="cn.igsdn.domain.DocumentStorage">
-    <result column="intro" jdbcType="LONGVARCHAR" property="intro" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -79,28 +77,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ID, name, size, upload_time, src, icon_src, key1, key2, key3, is_public, status, 
+    ID, name, size, upload_time, src, icon_src, key1, key2, key3, intro, is_public, status, 
     format, uploader, category
   </sql>
-  <sql id="Blob_Column_List">
-    intro
-  </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="cn.igsdn.domain.DocumentStorageExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from document_storages
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByExample" parameterType="cn.igsdn.domain.DocumentStorageExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -115,11 +94,9 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from document_storages
     where ID = #{id,jdbcType=INTEGER}
   </select>
@@ -136,14 +113,14 @@
   <insert id="insert" parameterType="cn.igsdn.domain.DocumentStorage">
     insert into document_storages (ID, name, size, 
       upload_time, src, icon_src, 
-      key1, key2, key3, is_public, 
-      status, format, uploader, 
-      category, intro)
+      key1, key2, key3, intro, 
+      is_public, status, format, 
+      uploader, category)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{size,jdbcType=VARCHAR}, 
       #{uploadTime,jdbcType=DATE}, #{src,jdbcType=VARCHAR}, #{iconSrc,jdbcType=VARCHAR}, 
-      #{key1,jdbcType=VARCHAR}, #{key2,jdbcType=VARCHAR}, #{key3,jdbcType=VARCHAR}, #{isPublic,jdbcType=BIT}, 
-      #{status,jdbcType=INTEGER}, #{format,jdbcType=INTEGER}, #{uploader,jdbcType=INTEGER}, 
-      #{category,jdbcType=INTEGER}, #{intro,jdbcType=LONGVARCHAR})
+      #{key1,jdbcType=VARCHAR}, #{key2,jdbcType=VARCHAR}, #{key3,jdbcType=VARCHAR}, #{intro,jdbcType=VARCHAR}, 
+      #{isPublic,jdbcType=BIT}, #{status,jdbcType=INTEGER}, #{format,jdbcType=INTEGER}, 
+      #{uploader,jdbcType=INTEGER}, #{category,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="cn.igsdn.domain.DocumentStorage">
     insert into document_storages
@@ -175,6 +152,9 @@
       <if test="key3 != null">
         key3,
       </if>
+      <if test="intro != null">
+        intro,
+      </if>
       <if test="isPublic != null">
         is_public,
       </if>
@@ -189,9 +169,6 @@
       </if>
       <if test="category != null">
         category,
-      </if>
-      <if test="intro != null">
-        intro,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -222,6 +199,9 @@
       <if test="key3 != null">
         #{key3,jdbcType=VARCHAR},
       </if>
+      <if test="intro != null">
+        #{intro,jdbcType=VARCHAR},
+      </if>
       <if test="isPublic != null">
         #{isPublic,jdbcType=BIT},
       </if>
@@ -236,9 +216,6 @@
       </if>
       <if test="category != null">
         #{category,jdbcType=INTEGER},
-      </if>
-      <if test="intro != null">
-        #{intro,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -278,6 +255,9 @@
       <if test="record.key3 != null">
         key3 = #{record.key3,jdbcType=VARCHAR},
       </if>
+      <if test="record.intro != null">
+        intro = #{record.intro,jdbcType=VARCHAR},
+      </if>
       <if test="record.isPublic != null">
         is_public = #{record.isPublic,jdbcType=BIT},
       </if>
@@ -293,31 +273,7 @@
       <if test="record.category != null">
         category = #{record.category,jdbcType=INTEGER},
       </if>
-      <if test="record.intro != null">
-        intro = #{record.intro,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map">
-    update document_storages
-    set ID = #{record.id,jdbcType=INTEGER},
-      name = #{record.name,jdbcType=VARCHAR},
-      size = #{record.size,jdbcType=VARCHAR},
-      upload_time = #{record.uploadTime,jdbcType=DATE},
-      src = #{record.src,jdbcType=VARCHAR},
-      icon_src = #{record.iconSrc,jdbcType=VARCHAR},
-      key1 = #{record.key1,jdbcType=VARCHAR},
-      key2 = #{record.key2,jdbcType=VARCHAR},
-      key3 = #{record.key3,jdbcType=VARCHAR},
-      is_public = #{record.isPublic,jdbcType=BIT},
-      status = #{record.status,jdbcType=INTEGER},
-      format = #{record.format,jdbcType=INTEGER},
-      uploader = #{record.uploader,jdbcType=INTEGER},
-      category = #{record.category,jdbcType=INTEGER},
-      intro = #{record.intro,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -333,6 +289,7 @@
       key1 = #{record.key1,jdbcType=VARCHAR},
       key2 = #{record.key2,jdbcType=VARCHAR},
       key3 = #{record.key3,jdbcType=VARCHAR},
+      intro = #{record.intro,jdbcType=VARCHAR},
       is_public = #{record.isPublic,jdbcType=BIT},
       status = #{record.status,jdbcType=INTEGER},
       format = #{record.format,jdbcType=INTEGER},
@@ -369,6 +326,9 @@
       <if test="key3 != null">
         key3 = #{key3,jdbcType=VARCHAR},
       </if>
+      <if test="intro != null">
+        intro = #{intro,jdbcType=VARCHAR},
+      </if>
       <if test="isPublic != null">
         is_public = #{isPublic,jdbcType=BIT},
       </if>
@@ -384,28 +344,7 @@
       <if test="category != null">
         category = #{category,jdbcType=INTEGER},
       </if>
-      <if test="intro != null">
-        intro = #{intro,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    where ID = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="cn.igsdn.domain.DocumentStorage">
-    update document_storages
-    set name = #{name,jdbcType=VARCHAR},
-      size = #{size,jdbcType=VARCHAR},
-      upload_time = #{uploadTime,jdbcType=DATE},
-      src = #{src,jdbcType=VARCHAR},
-      icon_src = #{iconSrc,jdbcType=VARCHAR},
-      key1 = #{key1,jdbcType=VARCHAR},
-      key2 = #{key2,jdbcType=VARCHAR},
-      key3 = #{key3,jdbcType=VARCHAR},
-      is_public = #{isPublic,jdbcType=BIT},
-      status = #{status,jdbcType=INTEGER},
-      format = #{format,jdbcType=INTEGER},
-      uploader = #{uploader,jdbcType=INTEGER},
-      category = #{category,jdbcType=INTEGER},
-      intro = #{intro,jdbcType=LONGVARCHAR}
     where ID = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.igsdn.domain.DocumentStorage">
@@ -418,6 +357,7 @@
       key1 = #{key1,jdbcType=VARCHAR},
       key2 = #{key2,jdbcType=VARCHAR},
       key3 = #{key3,jdbcType=VARCHAR},
+      intro = #{intro,jdbcType=VARCHAR},
       is_public = #{isPublic,jdbcType=BIT},
       status = #{status,jdbcType=INTEGER},
       format = #{format,jdbcType=INTEGER},

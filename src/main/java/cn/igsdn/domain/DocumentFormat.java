@@ -2,7 +2,7 @@ package cn.igsdn.domain;
 
 public class DocumentFormat {
     private Integer id;
-
+    private String name;
     private String suffix;
 
     private String defaultIconSrc;
@@ -15,6 +15,14 @@ public class DocumentFormat {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getSuffix() {

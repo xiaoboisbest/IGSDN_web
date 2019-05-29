@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
         try {
             if (StringUtils.isloginName(loginName)) {
                 int result = userMapper.selectByLoginName(loginName);
-//                System.out.println("验证结果：" + result);
+//              System.out.println("验证结果：" + result);
                 if (result != 0) {
                     return false; // 用户名重复，不可注册
                 } else {

@@ -3,6 +3,7 @@
 <mapper namespace="cn.igsdn.dao.DocumentFormatMapper">
   <resultMap id="BaseResultMap" type="cn.igsdn.domain.DocumentFormat">
     <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="suffix" jdbcType="VARCHAR" property="suffix" />
     <result column="default_icon_src" jdbcType="VARCHAR" property="defaultIconSrc" />
   </resultMap>
@@ -68,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ID, suffix, default_icon_src
+    ID, name, suffix, default_icon_src
   </sql>
   <sql id="Blob_Column_List">
     intro
@@ -122,16 +123,19 @@
     </if>
   </delete>
   <insert id="insert" parameterType="cn.igsdn.domain.DocumentFormat">
-    insert into document_formats (ID, suffix, default_icon_src, 
-      intro)
-    values (#{id,jdbcType=INTEGER}, #{suffix,jdbcType=VARCHAR}, #{defaultIconSrc,jdbcType=VARCHAR}, 
-      #{intro,jdbcType=LONGVARCHAR})
+    insert into document_formats (ID, name, suffix, 
+      default_icon_src, intro)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{suffix,jdbcType=VARCHAR}, 
+      #{defaultIconSrc,jdbcType=VARCHAR}, #{intro,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.igsdn.domain.DocumentFormat">
     insert into document_formats
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         ID,
+      </if>
+      <if test="name != null">
+        name,
       </if>
       <if test="suffix != null">
         suffix,
@@ -146,6 +150,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
       </if>
       <if test="suffix != null">
         #{suffix,jdbcType=VARCHAR},
@@ -170,6 +177,9 @@
       <if test="record.id != null">
         ID = #{record.id,jdbcType=INTEGER},
       </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
       <if test="record.suffix != null">
         suffix = #{record.suffix,jdbcType=VARCHAR},
       </if>
@@ -187,6 +197,7 @@
   <update id="updateByExampleWithBLOBs" parameterType="map">
     update document_formats
     set ID = #{record.id,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
       suffix = #{record.suffix,jdbcType=VARCHAR},
       default_icon_src = #{record.defaultIconSrc,jdbcType=VARCHAR},
       intro = #{record.intro,jdbcType=LONGVARCHAR}
@@ -197,6 +208,7 @@
   <update id="updateByExample" parameterType="map">
     update document_formats
     set ID = #{record.id,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
       suffix = #{record.suffix,jdbcType=VARCHAR},
       default_icon_src = #{record.defaultIconSrc,jdbcType=VARCHAR}
     <if test="_parameter != null">
@@ -206,6 +218,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="cn.igsdn.domain.DocumentFormat">
     update document_formats
     <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
       <if test="suffix != null">
         suffix = #{suffix,jdbcType=VARCHAR},
       </if>
@@ -220,14 +235,16 @@
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="cn.igsdn.domain.DocumentFormat">
     update document_formats
-    set suffix = #{suffix,jdbcType=VARCHAR},
+    set name = #{name,jdbcType=VARCHAR},
+      suffix = #{suffix,jdbcType=VARCHAR},
       default_icon_src = #{defaultIconSrc,jdbcType=VARCHAR},
       intro = #{intro,jdbcType=LONGVARCHAR}
     where ID = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.igsdn.domain.DocumentFormat">
     update document_formats
-    set suffix = #{suffix,jdbcType=VARCHAR},
+    set name = #{name,jdbcType=VARCHAR},
+      suffix = #{suffix,jdbcType=VARCHAR},
       default_icon_src = #{defaultIconSrc,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=INTEGER}
   </update>
