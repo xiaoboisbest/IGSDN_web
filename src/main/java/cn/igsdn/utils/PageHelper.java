@@ -1,6 +1,4 @@
 package cn.igsdn.utils;
-
-
 import java.util.List;
 
 public class PageHelper<T> {
@@ -8,7 +6,6 @@ public class PageHelper<T> {
     private Integer pageSize;
     private long total;
     private List<T> data;
-
 
     public long getTotal() {
         return total;

@@ -13,6 +13,20 @@
         <result column="gender" jdbcType="BIT" property="gender"/>
         <result column="uname" jdbcType="VARCHAR" property="uname"/>
     </resultMap>
+
+    <resultMap id="UserInformationMap" type="cn.igsdn.dto.GenUserInformation">
+        <id column="ID" jdbcType="INTEGER" property="ID"/>
+        <result column="state" jdbcType="SMALLINT" property="state"/>
+        <result column="source" jdbcType="SMALLINT" property="source"/>
+        <result column="is_dentify" jdbcType="BIT" property="is_dentify"/>
+        <result column="userName" jdbcType="VARCHAR" property="userName"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="documentName" jdbcType="VARCHAR" property="documentName"/>
+        <result column="remark_date" jdbcType="DATE" property="remark_date"/>
+        <result column="userID" jdbcType="INTEGER" property="userID"/>
+        <result column="documentID" jdbcType="INTEGER" property="documentID"/>
+        <result column="dc_id" jdbcType="INTEGER" property="dc_id"/>
+    </resultMap>
     <sql id="Example_Where_Clause">
         <where>
             <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -79,12 +93,86 @@
     <sql id="Gen_User_DTO_Column_List">
     ID, gen_user_level, uname
   </sql>
+
+    <sql id="Gen_User_Information_Column_List">
+    i.`source`,
+    i.`ID` ID,
+     c.`is_identify` is_identify,
+     i.`state` state,
+     u.`name` userName ,
+     u.`ID` userID,
+     c.`content` content,
+     d.`name` documentName,
+     d.`ID` documentID,
+     c.`remark_date` remark_date,
+     c.`ID` as dc_id
+  </sql>
+
+    <sql id="Gen_User_Info_Column_List">
+     name ,age,gender,uname,tel,email
+  </sql>
     <select id="selectGenUserDTOByPrimaryKey" resultType="cn.igsdn.dto.GenUserDTO">
         select
         <include refid="Gen_User_DTO_Column_List"/>
         from ig_user
         where password = #{arg1} and (tel = #{arg0} or email = #{arg0}) AND admin_user_level = '0'
     </select>
+
+    <select id="selectUserInfoByLoginName" resultType="cn.igsdn.dto.GenUserInfo">
+        select
+        <include refid="Gen_User_Info_Column_List"/>
+        from ig_user
+        where tel = #{arg0} or email = #{arg0}
+    </select>
+
+
+    <select id="selectUserInformationByLoginName" resultMap="UserInformationMap">
+    (SELECT <include refid="Gen_User_Information_Column_List"/>
+       FROM user_information i , document_comments2 c,ig_user u , documents d
+       WHERE i.`source`=2  AND  i.`receiver` = #{arg0} AND i.`comments_id` = c.`ID` AND u.`ID` = c.`commentator` AND d.`ID` = c.`document`)
+    UNION
+    (SELECT <include refid="Gen_User_Information_Column_List"/>
+        FROM user_information i , document_comments c ,ig_user u , documents d
+        WHERE i.`source`=1  AND  i.`receiver` = #{arg0} AND i.`comments_id` = c.`ID` AND u.`ID` = c.`commentator` AND d.`ID` = c.`document`)
+  </select>
+    <select id="selectUserInformationByID" resultType="cn.igsdn.domain.UserInformation">
+        SELECT * from user_information
+        WHERE ID = #{arg0}
+    </select>
+    <select id="selectDocumentComments" resultType="cn.igsdn.dto.DocumentCommentDTO">
+SELECT dc.`ID` id,
+dc.`content` content ,
+dc.`commentator` commentator,
+dc.`document` document,
+dc.`is_identify` isIdentify,
+dc.`remark_date` remarkDate,
+u.`name` commentatorName ,
+d.`name` documentName
+FROM document_comments dc,ig_user u,documents d WHERE dc.`commentator` = u.`ID` AND dc.`document` = d.`ID` AND dc.ID= #{arg0}
+    </select>
+    <select id="selectDocumentComments2" resultType="cn.igsdn.dto.DocumentComment2DTO">
+  SELECT
+           dc.`ID` id,
+           dc.`is_second` isSecond,
+           dc.`content` content ,
+           dc.`commentator` commentator,
+           dc.`document` document,
+           dc.`comment_id` commentId,
+           dc.`is_identify` isIdentify,
+           dc.`remark_date` remarkDate,
+           u.`name`  commentatorName,
+           d.`name` documentName
+   FROM document_comments2 dc,ig_user u,documents d
+   WHERE dc.`commentator` = u.`ID` AND dc.`document` = d.`ID` AND dc.ID = #{arg0}
+    </select>
+
+    <select id="selectLoginNameAndPassword" resultType="java.lang.Integer">
+    select
+    count(*)
+    from ig_user
+    where password = #{arg1} and (tel = #{arg0} or email = #{arg0})
+  </select>
+
     <select id="selectByLoginName" parameterType="java.lang.String" resultType="java.lang.Integer">
     select count(*)
     from ig_user
@@ -113,6 +201,11 @@
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from ig_user
     where ID = #{id,jdbcType=INTEGER}
+  </delete>
+
+    <delete id="deleteUserInformationByID" parameterType="java.lang.Integer">
+    delete from user_information
+    where ID = #{arg0}
   </delete>
     <delete id="deleteByExample" parameterType="cn.igsdn.domain.UserExample">
         delete from ig_user
@@ -251,6 +344,40 @@
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
     </update>
+
+    <update id="updatePasswordByLoginName" parameterType="map">
+        update ig_user
+        <set>
+            password = #{arg1},
+        </set>
+        where tel = #{arg0} or email = #{arg0}
+
+    </update>
+
+    <update id="updateUserInfoByLoginName" parameterType="map">
+        update ig_user
+        <set>
+            gender = #{arg1},
+            age = #{arg2},
+            name = #{arg3},
+            uname = #{arg4}
+        </set>
+        where tel = #{arg0} or email = #{arg0}
+
+    </update>
+
+
+    <update id="updateInformationStateByID" parameterType="map">
+        update user_information
+        <set>
+            state = #{arg1},
+
+        </set>
+        where  ID =  #{arg0}
+
+    </update>
+
+
     <update id="updateByPrimaryKeySelective" parameterType="cn.igsdn.domain.User">
         update ig_user
         <set>

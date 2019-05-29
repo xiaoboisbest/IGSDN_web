@@ -1,8 +1,6 @@
-package cn.igsdn.domain;
+package cn.igsdn.dto;
 
-import java.util.Date;
-
-public class DocumentComment {
+public class DocumentCommentDTO {
     private Integer id;
 
     private String content;
@@ -10,23 +8,16 @@ public class DocumentComment {
     private Boolean isIdentify;
 
     private Integer commentator;
-
     private Integer document;
-    private Date remarkDate;
+    private String commentatorName;
+    private String documentName;
+    private String remarkDate;
 
-    public Boolean getIdentify() {
-        return isIdentify;
-    }
-
-    public void setIdentify(Boolean identify) {
-        isIdentify = identify;
-    }
-
-    public Date getRemarkDate() {
+    public String getRemarkDate() {
         return remarkDate;
     }
 
-    public void setRemarkDate(Date remarkDate) {
+    public void setRemarkDate(String remarkDate) {
         this.remarkDate = remarkDate;
     }
 
@@ -43,15 +34,15 @@ public class DocumentComment {
     }
 
     public void setContent(String content) {
-        this.content = content == null ? null : content.trim();
+        this.content = content;
     }
 
-    public Boolean getIsIdentify() {
+    public Boolean getIdentify() {
         return isIdentify;
     }
 
-    public void setIsIdentify(Boolean isIdentify) {
-        this.isIdentify = isIdentify;
+    public void setIdentify(Boolean identify) {
+        isIdentify = identify;
     }
 
     public Integer getCommentator() {
@@ -70,14 +61,32 @@ public class DocumentComment {
         this.document = document;
     }
 
+    public String getCommentatorName() {
+        return commentatorName;
+    }
+
+    public void setCommentatorName(String commentatorName) {
+        this.commentatorName = commentatorName;
+    }
+
+    public String getDocumentName() {
+        return documentName;
+    }
+
+    public void setDocumentName(String documentName) {
+        this.documentName = documentName;
+    }
+
     @Override
     public String toString() {
-        return "DocumentComment{" +
+        return "DocumentCommentDTO{" +
                 "id=" + id +
                 ", content='" + content + '\'' +
                 ", isIdentify=" + isIdentify +
                 ", commentator=" + commentator +
                 ", document=" + document +
+                ", commentatorName='" + commentatorName + '\'' +
+                ", documentName='" + documentName + '\'' +
                 ", remarkDate=" + remarkDate +
                 '}';
     }

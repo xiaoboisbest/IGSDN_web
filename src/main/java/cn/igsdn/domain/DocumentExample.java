@@ -10,6 +10,25 @@ public class DocumentExample {
 
     protected boolean distinct;
 
+    protected Integer startRow;
+    protected Integer pageSize;
+
+    public Integer getStartRow() {
+        return startRow;
+    }
+
+    public void setStartRow(Integer startRow) {
+        this.startRow = startRow;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
+    }
+
     protected List<Criteria> oredCriteria;
 
     public DocumentExample() {
@@ -39,27 +58,6 @@ public class DocumentExample {
     public void or(Criteria criteria) {
         oredCriteria.add(criteria);
     }
-
-    private Integer startRow; // 分页参数：起始行
-
-    private Integer pageSize; // 分页参数：分页大小
-
-    public Integer getStartRow() {
-        return startRow;
-    }
-
-    public void setStartRow(Integer startRow) {
-        this.startRow = startRow;
-    }
-
-    public Integer getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(Integer pageSize) {
-        this.pageSize = pageSize;
-    }
-
     public Criteria or() {
         Criteria criteria = createCriteriaInternal();
         oredCriteria.add(criteria);
@@ -1129,66 +1127,6 @@ public class DocumentExample {
 
         public Criteria andCategoryNotBetween(Integer value1, Integer value2) {
             addCriterion("category not between", value1, value2, "category");
-            return (Criteria) this;
-        }
-
-        public Criteria andDownloadNumIsNull() {
-            addCriterion("download_num is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andDownloadNumIsNotNull() {
-            addCriterion("download_num is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andDownloadNumEqualTo(Long value) {
-            addCriterion("download_num =", value, "downloadNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andDownloadNumNotEqualTo(Long value) {
-            addCriterion("download_num <>", value, "downloadNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andDownloadNumGreaterThan(Long value) {
-            addCriterion("download_num >", value, "downloadNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andDownloadNumGreaterThanOrEqualTo(Long value) {
-            addCriterion("download_num >=", value, "downloadNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andDownloadNumLessThan(Long value) {
-            addCriterion("download_num <", value, "downloadNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andDownloadNumLessThanOrEqualTo(Long value) {
-            addCriterion("download_num <=", value, "downloadNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andDownloadNumIn(List<Long> values) {
-            addCriterion("download_num in", values, "downloadNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andDownloadNumNotIn(List<Long> values) {
-            addCriterion("download_num not in", values, "downloadNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andDownloadNumBetween(Long value1, Long value2) {
-            addCriterion("download_num between", value1, value2, "downloadNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andDownloadNumNotBetween(Long value1, Long value2) {
-            addCriterion("download_num not between", value1, value2, "downloadNum");
             return (Criteria) this;
         }
     }

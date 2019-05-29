@@ -86,13 +86,6 @@
       order by ${orderByClause}
     </if>
   </select>
-
-
-  <select id="selectByDocumentForPage" parameterType="cn.igsdn.domain.DocumentCommentExample" resultMap="BaseResultMap">
-   SELECT * FROM document_comments  WHERE document=#{arg0} LIMIT #{arg1},20;
-  </select>
-
-
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -117,12 +110,11 @@
       #{commentator,jdbcType=INTEGER}, #{commentId,jdbcType=INTEGER}, #{isSecond,jdbcType=BIT}, 
       #{remarkDate,jdbcType=DATE}, #{document,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="cn.igsdn.domain.DocumentComment">
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id"  parameterType="cn.igsdn.domain.DocumentComment2">
     <selectKey resultType="java.lang.Integer"  keyProperty="id" order="AFTER">
       select LAST_INSERT_ID()
     </selectKey>
-    insert into document_comments
-
+    insert into document_comments2
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         ID,
@@ -147,9 +139,6 @@
       </if>
       <if test="document != null">
         document,
-      </if>
-      <if test="remarkDate != null">
-        remark_date,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -176,9 +165,6 @@
       </if>
       <if test="document != null">
         #{document,jdbcType=INTEGER},
-      </if>
-      <if test="remarkDate != null">
-        #{remarkDate,jdbcType=DATE},
       </if>
     </trim>
   </insert>
