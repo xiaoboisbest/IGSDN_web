@@ -1,28 +1,28 @@
 package cn.igsdn.dto;
 
 public class SimpleCategroyDTO {
-    private Integer id;
+    private Integer index;
 
-    private String name;
+    private String title;
 
     private Integer level;
 
     private Integer parents;
 
-    public Integer getId() {
-        return id;
+    public Integer getIndex() {
+        return index;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIndex(Integer index) {
+        this.index = index;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Integer getLevel() {
@@ -41,13 +41,5 @@ public class SimpleCategroyDTO {
         this.parents = parents;
     }
 
-    @Override
-    public String toString() {
-        return "SimpleCategroyDTO{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", level=" + level +
-                ", parents=" + parents +
-                '}';
-    }
+
 }

@@ -1,5 +1,7 @@
 package cn.igsdn.domain;
 
+import java.util.Date;
+
 public class DocumentComment {
     private Integer id;
 
@@ -10,6 +12,23 @@ public class DocumentComment {
     private Integer commentator;
 
     private Integer document;
+    private Date remarkDate;
+
+    public Boolean getIdentify() {
+        return isIdentify;
+    }
+
+    public void setIdentify(Boolean identify) {
+        isIdentify = identify;
+    }
+
+    public Date getRemarkDate() {
+        return remarkDate;
+    }
+
+    public void setRemarkDate(Date remarkDate) {
+        this.remarkDate = remarkDate;
+    }
 
     public Integer getId() {
         return id;
@@ -49,5 +68,17 @@ public class DocumentComment {
 
     public void setDocument(Integer document) {
         this.document = document;
+    }
+
+    @Override
+    public String toString() {
+        return "DocumentComment{" +
+                "id=" + id +
+                ", content='" + content + '\'' +
+                ", isIdentify=" + isIdentify +
+                ", commentator=" + commentator +
+                ", document=" + document +
+                ", remarkDate=" + remarkDate +
+                '}';
     }
 }

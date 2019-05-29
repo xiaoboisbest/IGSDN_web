@@ -36,10 +36,11 @@
         </javaClientGenerator>
 
         <!-- 指定每个表的生成策略 -->
-        <table tableName="categories" domainObjectName="Category" ></table>
+       <!-- <table tableName="categories" domainObjectName="Category" ></table>
         <table tableName="document_comments" domainObjectName="DocumentComment" ></table>
         <table tableName="document_formats" domainObjectName="DocumentFormat" ></table>
         <table tableName="document_storages" domainObjectName="DocumentStorage" ></table>
-        <table tableName="ig_user" domainObjectName="User" ></table>
+        <table tableName="ig_user" domainObjectName="User" ></table>-->
+        <table tableName="document_formats" domainObjectName="DocumentFormat" ></table>
     </context>
 </generatorConfiguration>

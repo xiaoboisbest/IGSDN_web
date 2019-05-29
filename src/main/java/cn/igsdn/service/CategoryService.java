@@ -1,9 +1,10 @@
 package cn.igsdn.service;
 
-import cn.igsdn.dto.SimpleCategroyDTO;
+import cn.igsdn.utils.CategoryTreeNode;
 
 import java.util.List;
 
 public interface CategoryService {
-    public List<SimpleCategroyDTO> listSimpleCategories();
+    public List<CategoryTreeNode> listSimpleCategories();
+
 }
