@@ -15,8 +15,8 @@ public interface DocumentCommentsService {
 
     Boolean insertComments(DocumentComment2 documentComment2);
 
-    Boolean insertCommentsToUserIofo(Integer documentCommentId, Integer autoID);
+    Boolean insertCommentsToUserInfo(Integer documentCommentId, Integer autoID);
 
     Boolean remarkDocument(DocumentComment documentComment);
-    public Boolean insertremarkDocumentToUserIofo(Integer documentID, Integer autoID);
+    public Boolean insertRemarkDocumentToUserInfo(Integer documentID, Integer autoID);
 }

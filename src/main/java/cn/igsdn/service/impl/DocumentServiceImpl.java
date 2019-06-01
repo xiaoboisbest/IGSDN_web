@@ -81,6 +81,7 @@ public class DocumentServiceImpl implements DocumentService {
             simpleDocumentDTO.setSize(document.getSize());
             simpleDocumentDTO.setUploaderName(user.getUname());
             simpleDocumentDTO.setIcon(formatId);
+            simpleDocumentDTO.setPublic(document.getIsPublic());
             System.out.println(simpleDocumentDTO);
             data.add(simpleDocumentDTO);
         }
@@ -100,6 +101,7 @@ public class DocumentServiceImpl implements DocumentService {
         if ("private".equals(type)) {
             criteria.andUploaderEqualTo(userId);
         } else if ("public".equals(type)) {
+            criteria.andIsPublicEqualTo(true);
         }
         if (queryString != null) {
             if ("name".equals(queryField))

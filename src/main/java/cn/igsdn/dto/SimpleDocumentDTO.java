@@ -8,23 +8,13 @@ public class SimpleDocumentDTO {
     private String intro; // 20个字符
     private String uploaderName;
     private String lastUpdateTime;
+    private Boolean isPublic;
     private String size;
     private String uploadTime;
     private Integer icon;
     private String downloadNum;
 
     public SimpleDocumentDTO() {
-    }
-
-    public SimpleDocumentDTO(Integer id, String name, String intro, String uploaderName, String size, String uploadTime, String lastUpdateTime, Integer icon) {
-        this.id = id;
-        this.name = name;
-        this.intro = intro;
-        this.uploaderName = uploaderName;
-        this.size = size;
-        this.uploadTime = uploadTime;
-        this.lastUpdateTime = lastUpdateTime;
-        this.icon = icon;
     }
 
     public Integer getIcon() {
@@ -97,6 +87,14 @@ public class SimpleDocumentDTO {
 
     public void setDownloadNum(String downloadNum) {
         this.downloadNum = downloadNum;
+    }
+
+    public Boolean getPublic() {
+        return isPublic;
+    }
+
+    public void setPublic(Boolean aPublic) {
+        isPublic = aPublic;
     }
 
     @Override

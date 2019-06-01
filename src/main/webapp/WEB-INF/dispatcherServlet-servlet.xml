@@ -10,7 +10,8 @@
     <!-- SpringMVC的配置文件，包含网站跳转逻辑的控制，配置 -->
     <context:component-scan base-package="cn.igsdn" use-default-filters="false">
         <!-- 只扫描控制器 -->
-        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"></context:include-filter>
+        <context:include-filter type="annotation"
+                                expression="org.springframework.stereotype.Controller"></context:include-filter>
     </context:component-scan>
 
     <!-- 视图解析器 org.springframework.web.servlet.view.InternalResourceViewResolver-->
@@ -18,13 +19,8 @@
         <property name="prefix" value="/WEB-INF/views/"></property>
         <property name="suffix" value=".html"></property>
     </bean>
-<<<<<<< HEAD
     <mvc:resources mapping="/css/**" location="css/"></mvc:resources>
     <mvc:resources mapping="/js/**" location="js/"></mvc:resources>
-=======
-    <mvc:resources mapping="/css/**" location="/css/"></mvc:resources>
-    <mvc:resources mapping="/js/**" location="/js/"></mvc:resources>
->>>>>>> pr/5
 
     <mvc:default-servlet-handler/>
     <mvc:annotation-driven/>

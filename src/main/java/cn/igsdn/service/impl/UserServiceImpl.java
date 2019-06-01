@@ -31,6 +31,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserInformationMapper userInformationMapper;
 
+    @Override
     public Boolean isLoginNameMatchPassword(String loginName, String password1) {
         try {
             if (userMapper.selectLoginNameAndPassword(loginName, password1) != 0)
@@ -41,6 +42,7 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
+    @Override
     public GenUserInfo selectUserInfo(String loginName) {
         GenUserInfo userInfo = null;
         try {
@@ -51,7 +53,7 @@ public class UserServiceImpl implements UserService {
         return userInfo;
     }
 
-    // 更新用户信息
+    @Override
     public Boolean updateUserInfo(String loginName, String gender, String age, String name, String uname) {
         int result;
         try {
@@ -67,53 +69,45 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    // 信息通知
+    @Override
     public List<GenUserInformation> selectUserInformation(String loginName) {
         //loginName为ig_user ：ID
         return userMapper.selectUserInformationByLoginName(loginName);
 
     }
 
+    @Override
     public Boolean updateInformationState(String userInformationID, String state) {
         return userMapper.updateInformationStateByID(userInformationID, state) != 0 ? true : false;
     }
 
+    @Override
     public Boolean deleteUserInformation(Integer id) {
 
         return userMapper.deleteUserInformationByID(id) != 0 ? true : false;
     }
 
-
-    public Boolean updatePassword(String loginName, String password1, String passWord2) {
-        int result;
-        try {
-            if (password1.equals(passWord2)) {
+    @Override
+    public Boolean updatePassword(Integer userId, String password1, String passWord2) {
+        if (checkPasswordByPrimaryKey(userId, password1)) {
+            User user = new User();
+            user.setPassword(passWord2);
+            user.setId(userId);
+            int res = userMapper.updateByPrimaryKeySelective(user);
+            System.out.println(res);
+            if (res < 0)
+                return true;
+            else
                 return false;
-            } else {
-                // 注意在isLoginNameMatchPassword() 有使用 Autowried 的 是为空 ，在测试时不能进行使用 java.lang.NullPointerException
-                Boolean isLoginNameMatchPassword = isLoginNameMatchPassword(loginName, password1);
-                System.out.println(isLoginNameMatchPassword);
-                if (isLoginNameMatchPassword) {
-                    result = userMapper.updatePasswordByLoginName(loginName, passWord2);
-                    if (result != 0) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-            }
-        } catch (Exception e) {
-            //e.printStackTrace();
-            return null;
         }
         return null;
     }
 
-
+    @Override
     public Map<String, List> selectAllRemark(Integer id) {
-        Map<String, List> bigMap = new HashMap<String, List>();
-        List<Object> list1 = new ArrayList<Object>();
-        List<Object> list2 = new ArrayList<Object>();
+        Map<String, List> bigMap = new HashMap<>();
+        List<Object> list1 = new ArrayList<>();
+        List<Object> list2 = new ArrayList<>();
         UserInformation information = userMapper.selectUserInformationByID(id);
         DocumentCommentDTO documentComment;
         if (information.getSource() == 1) {
@@ -138,20 +132,22 @@ public class UserServiceImpl implements UserService {
         return bigMap;
     }
 
-
+    @Override
     public Boolean insertInformationRemark1(DocumentComment2 documentComment2) {
 
         try {
             System.out.println(documentComment2);
-           Integer result =  documentComment2Mapper.insertSelective(documentComment2);
-            if(result!=0) return true;
+            Integer result = documentComment2Mapper.insertSelective(documentComment2);
+            if (result != 0) return true;
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         return false;
     }
-    public Boolean insertInformationRemark2( Integer ID,String receive) {
+
+    @Override
+    public Boolean insertInformationRemark2(Integer ID, String receive) {
 
         try {
             UserInformation userInformation = new UserInformation();
@@ -174,6 +170,7 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
+    @Override
     public Object login(int type, String loginName, String password) {
         try {
             switch (type) { // 登陆方式（0：管理员；1：普通用户）
@@ -189,7 +186,16 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+    @Override
+    public Boolean checkPasswordByPrimaryKey(Integer userId, String password) {
+        String password1 = userMapper.selectByPrimaryKey(userId).getPassword();
+        if (password1.equals(password)) {
+            return true;
+        }
+        return false;
+    }
 
+    @Override
     public Boolean checkRegister(String loginName) {
         try {
             if (StringUtils.isloginName(loginName)) {
@@ -208,22 +214,23 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+    @Override
     public Boolean register(String loginName, String password, String uname) {
-        System.out.println(loginName+""+password+"-------"+uname);
+        System.out.println(loginName + "" + password + "-------" + uname);
         if (!StringUtils.isNotBlank(loginName) || !StringUtils.isNotBlank(uname) || !StringUtils.isNotBlank(password)) {
 //          System.out.println("输入为空");
             return false;
         }
-        System.out.println(loginName+""+password+"-------"+uname);
+        System.out.println(loginName + "" + password + "-------" + uname);
         if (uname.trim().length() > 10 || password.trim().length() > 20) {
 //          System.out.println("输入长度过大");
             return false;
         }
-        System.out.println(loginName+""+password+"-------"+uname);
+        System.out.println(loginName + "" + password + "-------" + uname);
         Boolean b = checkRegister(loginName);
         System.out.println(b);
         if (b == null || !b) {
-          //System.out.println("用户已注册");
+            //System.out.println("用户已注册");
             return false;
         }
         String s = StringUtils.checkStringType(loginName);

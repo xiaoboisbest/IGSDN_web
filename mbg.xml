@@ -16,33 +16,33 @@
         </jdbcConnection>
 
         <javaTypeResolver>
-            <property name="forceBigDecimals" value="false" />
+            <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
 
         <!-- javabean生成的位置 -->
         <javaModelGenerator targetPackage="cn.igsdn.domain" targetProject=".\src\main\java">
-            <property name="enableSubPackages" value="true" />
-            <property name="trimStrings" value="true" />
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
         </javaModelGenerator>
 
         <!-- 指定sql映射文件生成的位置 -->
         <sqlMapGenerator targetPackage="mapper" targetProject=".\src\main\resources">
-            <property name="enableSubPackages" value="true" />
+            <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
 
         <!-- 指定dao接口生成的位置,mapper接口 -->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="cn.igsdn.dao"  targetProject=".\src\main\java">
-            <property name="enableSubPackages" value="true" />
+        <javaClientGenerator type="XMLMAPPER" targetPackage="cn.igsdn.dao" targetProject=".\src\main\java">
+            <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
         <!-- 指定每个表的生成策略 -->
-<!--        <table tableName="document_comments2" domainObjectName="DocumentComment2" ></table>-->
-        <table tableName="documents" domainObjectName="Document" ></table>
-<!--        <table tableName="user_information" domainObjectName="UserInformation" ></table>-->
-<!--        <table tableName="categories" domainObjectName="Category" ></table>-->
-<!--        <table tableName="document_comments" domainObjectName="DocumentComment" ></table>-->
-<!--        <table tableName="document_formats" domainObjectName="DocumentFormat" ></table>-->
-        <table tableName="document_storages" domainObjectName="DocumentStorage" ></table>
-<!--        <table tableName="ig_user" domainObjectName="User" ></table>-->
+        <!--        <table tableName="document_comments2" domainObjectName="DocumentComment2" ></table>-->
+        <table tableName="documents" domainObjectName="Document"></table>
+        <!--        <table tableName="user_information" domainObjectName="UserInformation" ></table>-->
+        <!--        <table tableName="categories" domainObjectName="Category" ></table>-->
+        <!--        <table tableName="document_comments" domainObjectName="DocumentComment" ></table>-->
+        <!--        <table tableName="document_formats" domainObjectName="DocumentFormat" ></table>-->
+        <table tableName="document_storages" domainObjectName="DocumentStorage"></table>
+        <!--        <table tableName="ig_user" domainObjectName="User" ></table>-->
     </context>
 </generatorConfiguration>

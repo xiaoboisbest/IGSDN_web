@@ -115,17 +115,14 @@
         select
         <include refid="Gen_User_DTO_Column_List"/>
         from ig_user
-        where password = #{arg1} and (tel = #{arg0} or email = #{arg0}) AND admin_user_level = '0'
+        where password = #{arg1} and (tel = #{arg0} or email = #{arg0}) AND gen_user_level != '0'
     </select>
-
     <select id="selectUserInfoByLoginName" resultType="cn.igsdn.dto.GenUserInfo">
         select
         <include refid="Gen_User_Info_Column_List"/>
         from ig_user
-        where tel = #{arg0} or email = #{arg0}
+        where ID = #{arg0}
     </select>
-
-
     <select id="selectUserInformationByLoginName" resultMap="UserInformationMap">
     (SELECT <include refid="Gen_User_Information_Column_List"/>
        FROM user_information i , document_comments2 c,ig_user u , documents d
@@ -165,7 +162,6 @@ FROM document_comments dc,ig_user u,documents d WHERE dc.`commentator` = u.`ID` 
    FROM document_comments2 dc,ig_user u,documents d
    WHERE dc.`commentator` = u.`ID` AND dc.`document` = d.`ID` AND dc.ID = #{arg0}
     </select>
-
     <select id="selectLoginNameAndPassword" resultType="java.lang.Integer">
     select
     count(*)

@@ -21,6 +21,7 @@ public interface DocumentMapper {
     Document selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") Document record, @Param("example") DocumentExample example);
+
     int updateByExample(@Param("record") Document record, @Param("example") DocumentExample example);
 
     int updateByPrimaryKeySelective(Document record);

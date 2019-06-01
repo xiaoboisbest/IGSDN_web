@@ -6,11 +6,8 @@ import cn.igsdn.service.DocumentPreview;
 import cn.igsdn.service.DocumentService;
 import cn.igsdn.utils.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.PathParam;
 import java.util.List;
 import java.util.Map;
 

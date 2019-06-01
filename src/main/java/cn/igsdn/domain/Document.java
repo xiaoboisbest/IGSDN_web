@@ -161,6 +161,5 @@ public class Document {
 
     public void setDownloadNum(Long downloadNum) {
         this.downloadNum = downloadNum;
-
     }
 }

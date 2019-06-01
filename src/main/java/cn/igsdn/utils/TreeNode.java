@@ -3,23 +3,54 @@ package cn.igsdn.utils;
 import java.util.List;
 
 public class TreeNode<T> {
-    private T node;
+    private Integer index;
+    private T data;
+    private Integer level;
+    private Integer parents;
+
     private List<TreeNode> children;
 
     public TreeNode() {
     }
 
-    public TreeNode(T node, List<TreeNode> children) {
-        this.node = node;
+    public TreeNode(Integer index, T data, Integer level, Integer parents, List<TreeNode> children) {
+        this.index = index;
+        this.data = data;
+        this.level = level;
+        this.parents = parents;
         this.children = children;
     }
 
-    public T getNode() {
-        return node;
+    public Integer getIndex() {
+        return index;
     }
 
-    public void setNode(T node) {
-        this.node = node;
+    public void setIndex(Integer index) {
+        this.index = index;
+    }
+
+    public Integer getParents() {
+        return parents;
+    }
+
+    public void setParents(Integer parents) {
+        this.parents = parents;
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
     }
 
     public List<TreeNode> getChildren() {
@@ -33,7 +64,7 @@ public class TreeNode<T> {
     @Override
     public String toString() {
         return "TreeNode{" +
-                "node=" + node +
+                "data=" + data +
                 ", children=" + children +
                 '}';
     }

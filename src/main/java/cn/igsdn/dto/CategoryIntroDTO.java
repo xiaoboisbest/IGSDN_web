@@ -4,6 +4,7 @@ public class CategoryIntroDTO {
     private Integer id;
 
     private String name;
+
     private String intro;
 
     public CategoryIntroDTO() {

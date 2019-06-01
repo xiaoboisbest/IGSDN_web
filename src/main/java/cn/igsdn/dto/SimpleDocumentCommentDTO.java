@@ -10,7 +10,7 @@ public class SimpleDocumentCommentDTO {
     private String content;
     private String userName;
     private Integer foreignKey; // 外键
-    private Date remarkDate;
+    private String remarkDate;
     private Boolean levelShow;
 
     public Boolean getLevelShow() {
@@ -53,18 +53,18 @@ public class SimpleDocumentCommentDTO {
         this.foreignKey = foreignKey;
     }
 
-    public Date getRemarkDate() {
+    public String getRemarkDate() {
         return remarkDate;
     }
 
-    public void setRemarkDate(Date remarkDate) {
+    public void setRemarkDate(String remarkDate) {
         this.remarkDate = remarkDate;
     }
 
     public SimpleDocumentCommentDTO() {
     }
 
-    public SimpleDocumentCommentDTO(Integer id, String content, String userName, Integer foreignKey, Date remarkDate) {
+    public SimpleDocumentCommentDTO(Integer id, String content, String userName, Integer foreignKey, String remarkDate) {
         this.id = id;
         this.content = content;
         this.userName = userName;

@@ -86,15 +86,8 @@
       order by ${orderByClause}
     </if>
   </select>
-
-
-  <select id="selectByDocumentForPage" parameterType="cn.igsdn.domain.DocumentCommentExample" resultMap="BaseResultMap">
-   SELECT * FROM document_comments  WHERE document=#{arg0} LIMIT #{arg1},20;
-  </select>
-
-
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from document_comments2
     where ID = #{id,jdbcType=INTEGER}
@@ -110,19 +103,18 @@
     </if>
   </delete>
   <insert id="insert" parameterType="cn.igsdn.domain.DocumentComment2">
-    insert into document_comments2 (ID, content, is_identify, 
-      commentator, comment_id, is_second, 
+    insert into document_comments2 (ID, content, is_identify,
+      commentator, comment_id, is_second,
       remark_date, document)
-    values (#{id,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{isIdentify,jdbcType=BIT}, 
-      #{commentator,jdbcType=INTEGER}, #{commentId,jdbcType=INTEGER}, #{isSecond,jdbcType=BIT}, 
+    values (#{id,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{isIdentify,jdbcType=BIT},
+      #{commentator,jdbcType=INTEGER}, #{commentId,jdbcType=INTEGER}, #{isSecond,jdbcType=BIT},
       #{remarkDate,jdbcType=DATE}, #{document,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="cn.igsdn.domain.DocumentComment">
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id"  parameterType="cn.igsdn.domain.DocumentComment2">
     <selectKey resultType="java.lang.Integer"  keyProperty="id" order="AFTER">
       select LAST_INSERT_ID()
     </selectKey>
-    insert into document_comments
-
+    insert into document_comments2
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         ID,
@@ -147,9 +139,6 @@
       </if>
       <if test="document != null">
         document,
-      </if>
-      <if test="remarkDate != null">
-        remark_date,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -176,9 +165,6 @@
       </if>
       <if test="document != null">
         #{document,jdbcType=INTEGER},
-      </if>
-      <if test="remarkDate != null">
-        #{remarkDate,jdbcType=DATE},
       </if>
     </trim>
   </insert>
@@ -223,13 +209,13 @@
   <update id="updateByExample" parameterType="map">
     update document_comments2
     set ID = #{record.id,jdbcType=INTEGER},
-      content = #{record.content,jdbcType=VARCHAR},
-      is_identify = #{record.isIdentify,jdbcType=BIT},
-      commentator = #{record.commentator,jdbcType=INTEGER},
-      comment_id = #{record.commentId,jdbcType=INTEGER},
-      is_second = #{record.isSecond,jdbcType=BIT},
-      remark_date = #{record.remarkDate,jdbcType=DATE},
-      document = #{record.document,jdbcType=INTEGER}
+    content = #{record.content,jdbcType=VARCHAR},
+    is_identify = #{record.isIdentify,jdbcType=BIT},
+    commentator = #{record.commentator,jdbcType=INTEGER},
+    comment_id = #{record.commentId,jdbcType=INTEGER},
+    is_second = #{record.isSecond,jdbcType=BIT},
+    remark_date = #{record.remarkDate,jdbcType=DATE},
+    document = #{record.document,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
