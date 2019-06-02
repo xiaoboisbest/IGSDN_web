@@ -84,7 +84,7 @@
     </if>
   </select>
   <select id="selectByDocumentForPage" parameterType="cn.igsdn.domain.DocumentCommentExample" resultMap="BaseResultMap">
-   SELECT * FROM document_comments  WHERE document=#{arg0} LIMIT #{arg1},20;
+   SELECT * FROM document_comments  WHERE document=#{arg0} LIMIT #{arg1}, #{arg2};
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 

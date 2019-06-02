@@ -3,27 +3,34 @@ package cn.igsdn.service;
 import cn.igsdn.domain.DocumentComment2;
 import cn.igsdn.dto.GenUserInfo;
 import cn.igsdn.dto.GenUserInformation;
+import cn.igsdn.dto.UserMemoryInfoDTO;
 
 import java.util.List;
 import java.util.Map;
 
 public interface UserService {
 
-    public Object login(int Type, String loginName, String password);
+    UserMemoryInfoDTO selectUserMemoryInfoByUserId(Integer userId);
 
-    public Boolean checkPasswordByPrimaryKey(Integer userId, String password);
+    Boolean updateLoginNameByPrimaryKey(Integer userId, String tel, String email);
 
-    public Boolean checkRegister(String loginName);
+    Long countUnReadUserInformationByUserId(Integer userId);
 
-    public Boolean register(String loginName, String password, String uname);
+    Object login(int Type, String loginName, String password);
 
-    public Boolean updatePassword(Integer userId, String password1, String passWord2);
+    Boolean checkPasswordByPrimaryKey(Integer userId, String password);
 
-    public Boolean isLoginNameMatchPassword(String loginName, String password1);
+    Boolean checkRegister(String loginName);
 
-    public GenUserInfo selectUserInfo(String loginName);
+    Boolean register(String loginName, String password, String uname);
 
-    Boolean updateUserInfo(String loginName, String gender, String age, String name, String uname);
+    Boolean updatePassword(Integer userId, String password1, String passWord2);
+
+    Boolean isLoginNameMatchPassword(String loginName, String password1);
+
+    GenUserInfo selectUserInfo(Integer userId);
+
+    Boolean updateUserInfo(Integer userId, String gender, String age, String name, String uname);
 
     List<GenUserInformation> selectUserInformation(String loginName);
 
@@ -33,8 +40,8 @@ public interface UserService {
 
     Map<String, List> selectAllRemark(Integer id);
 
-
     Boolean insertInformationRemark1(DocumentComment2 documentComment2);
 
     Boolean insertInformationRemark2(Integer ID, String receive);
+
 }

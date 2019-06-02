@@ -1,6 +1,8 @@
 package cn.igsdn.controller;
 
+import cn.igsdn.domain.Document;
 import cn.igsdn.dto.DocumentDTO;
+import cn.igsdn.dto.DocumentDTO2;
 import cn.igsdn.dto.SimpleDocumentDTO;
 import cn.igsdn.service.DocumentPreview;
 import cn.igsdn.service.DocumentService;
@@ -12,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8081")
 public class DocumentController {
 
     @Autowired
@@ -21,6 +22,22 @@ public class DocumentController {
     @Autowired
     DocumentService documentService;
 
+
+    @RequestMapping(value = "updateDocument/{id}", method = RequestMethod.PUT)
+    public Boolean updateDocumentByPrimaryKey(@PathVariable Integer id,  @RequestBody Map<String, Document> map) {
+        Document document = map.get("document");
+        document.setId(id);
+        return documentService.updateDocumentByPrimaryKey(document);
+    }
+    @RequestMapping(value = "getDocumentDetailsBeforeUpdate/{id}", method = RequestMethod.GET)
+    public DocumentDTO2 getDocumentDetailsBeforeUpdate(@PathVariable Integer id) {
+        return documentService.getDocumentDetailsBeforeUpdateByPrimaryKey(id);
+    }
+
+    @RequestMapping(value = "deleteDocument/{id}", method = RequestMethod.DELETE)
+    public Boolean deleteDocument(@PathVariable Integer id) {
+        return documentService.deleteDocumentByPrimaryKey(id);
+    }
 
     @RequestMapping(value = "updateMarkdownContent/{id}", method = RequestMethod.PUT)
     public Boolean updateMarkdownContent(@PathVariable Integer id, @RequestBody Map<String, String> map) {

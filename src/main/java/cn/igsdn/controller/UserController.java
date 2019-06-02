@@ -3,6 +3,7 @@ package cn.igsdn.controller;
 import cn.igsdn.domain.DocumentComment2;
 import cn.igsdn.dto.GenUserInfo;
 import cn.igsdn.dto.GenUserInformation;
+import cn.igsdn.dto.UserMemoryInfoDTO;
 import cn.igsdn.service.UserService;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.SerializationConfig;
@@ -14,10 +15,28 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8081")
+//@CrossOrigin(origins = "http://localhost:8081")
 public class UserController {
     @Autowired
     UserService userService;
+
+    @RequestMapping(value = "/genUser/getUserMemoryInfo/{userId}", method = RequestMethod.GET)
+    public UserMemoryInfoDTO getUserMemoryInfoByUserId(@PathVariable Integer userId) {
+        return userService.selectUserMemoryInfoByUserId(userId);
+    }
+
+    @RequestMapping(value = "/genUser/updateLoginName", method = RequestMethod.PUT)
+    public Boolean updateLoginName(@RequestBody Map<String, String> map) {
+        Integer userId = Integer.parseInt(map.get("userId"));
+        String tel = map.get("tel");
+        String email = map.get("email");
+        return userService.updateLoginNameByPrimaryKey(userId, tel, email);
+    }
+
+    @RequestMapping(value = "/genUser/countUnReadUserInformationByUserId/{userId}", method = RequestMethod.GET)
+    public Long countUnReadUserInformationByUserId(@PathVariable("userId") Integer userId) {
+        return userService.countUnReadUserInformationByUserId(userId);
+    }
 
     //添加评论
     @RequestMapping(value = "/genUser/userInformationRemark", method = RequestMethod.POST)
@@ -69,24 +88,21 @@ public class UserController {
         String userInformationID = map.get("userInformationID");
         String state = map.get("state");
         System.out.println(userInformationID + "=======" + state);
-
         return userService.updateInformationState(userInformationID, state);
     }
 
-    @RequestMapping(value = "/genUser/updateUserInfo")
-    public Boolean updateUserInfo(@RequestBody Map<String, String> map) {
-        String loginName = map.get("loginName");
+    @RequestMapping(value = "/genUser/updateUserInfo/{userId}", method = RequestMethod.PUT)
+    public Boolean updateUserInfo(@RequestBody Map<String, String> map, @PathVariable("userId") Integer userId) {
         String gender = map.get("gender");
         String age = map.get("age");
         String name = map.get("name");
         String uname = map.get("uname");
-
-        return userService.updateUserInfo(loginName, gender, age, name, uname);
+        return userService.updateUserInfo(userId, gender, age, name, uname);
     }
 
-    @RequestMapping(value = "/genUser/selectUserInfo/{loginName}", method = RequestMethod.GET)
-    public GenUserInfo selectUserInfo(@PathVariable("loginName") String loginName) {
-        return userService.selectUserInfo(loginName);
+    @RequestMapping(value = "/genUser/selectUserInfo/{userId}", method = RequestMethod.GET)
+    public GenUserInfo selectUserInfo(@PathVariable("userId") Integer userId) {
+        return userService.selectUserInfo(userId);
     }
 
 

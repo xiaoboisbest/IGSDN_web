@@ -58,11 +58,15 @@ public class TreeUtils<T, D> {
                         categoryTreeNodeDTO.setIndex(new StringBuilder(preList.get(i - 1)).append(treeNode.getIndex()).toString());
                     else
                         categoryTreeNodeDTO.setIndex(treeNode.getIndex().toString());
-                    categoryTreeNodeDTO.setSubs(new ArrayList<>());
+                    categoryTreeNodeDTO.setSubs(null);
                     categoryTreeNodeDTO.setTitle(dataClone2);
                     treeNodeDTO = (D) categoryTreeNodeDTO;
                     if (level != 1) { // 如果该结点不位于第一层，将其放入父节点的children数组中
-                        ((CategoryTreeNodeDTO) resultMap.get(parents)).getSubs().add(categoryTreeNodeDTO);
+                        CategoryTreeNodeDTO categoryTreeNodeDTO1 = ((CategoryTreeNodeDTO) resultMap.get(parents));
+                        List<CategoryTreeNodeDTO> subs = categoryTreeNodeDTO1.getSubs();
+                        if (subs == null)
+                            categoryTreeNodeDTO1.setSubs(new ArrayList<>());
+                        categoryTreeNodeDTO1.getSubs().add(categoryTreeNodeDTO);
                     } else {
                         resultLists.get(i).add(treeNodeDTO);
                     }

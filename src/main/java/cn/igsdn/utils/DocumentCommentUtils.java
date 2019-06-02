@@ -39,10 +39,11 @@ public class DocumentCommentUtils {
         return simpleDocumentCommentDTO;
     }
 
-    public static void documentCommentWriteInList(List<TreeNode> list, Integer userID, String usenName, Object o) {
-        SimpleDocumentCommentDTO simpleDocumentCommentDTO = DocumentCommentUtils.documentCommentToSimpleDocumentCommentDTO(userID, usenName, o);
+    public static void documentCommentWriteInList(List<TreeNode> list, Integer userID, String userName, Object o) {
+        SimpleDocumentCommentDTO simpleDocumentCommentDTO = DocumentCommentUtils.documentCommentToSimpleDocumentCommentDTO(userID, userName, o);
         TreeNode node = new TreeNode();
         node.setData(simpleDocumentCommentDTO);
         list.add(node);
     }
+
 }

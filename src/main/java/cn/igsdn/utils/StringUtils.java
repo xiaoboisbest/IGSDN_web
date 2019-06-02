@@ -1,5 +1,6 @@
 package cn.igsdn.utils;
 
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -8,7 +9,10 @@ public class StringUtils {
     public static final String EMAIL_STRING = "email";
     public static final String MATCH_TEL_STRING = "^1[3456789]\\d{9}$";
     public static final String MATCH_EMAIL_STRING = "^[A-Za-z0-9\\u4e00-\\u9fa5]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$";
-    public static final String OFFICE[] = {"doc", "docx", "ppt", "pptx", "xls", "xlsx"};
+    public static final String OFFICE[] = {"word", "doc", "docx", "ppt", "pptx", "xls", "xlsx"};
+    public static Integer SIZE_B = 1024;
+    public static Integer SIZE_KB = SIZE_B * 1024;
+    public static Integer SIZE_MB = SIZE_KB * 1024;
 
     private StringUtils() {
 
@@ -66,6 +70,59 @@ public class StringUtils {
             downloadNum = downloadNum / 10000;
             return downloadNum.toString() + "W+";
         }
+    }
+
+    public static String formatDocumentSize(Number size) {
+        StringBuilder stringBuilder = new StringBuilder();
+        if (size instanceof Double) {
+            Double sizeDouble = (Double) size;
+            DecimalFormat df = new DecimalFormat("#.00");
+            String num = null;
+            if (sizeDouble < SIZE_B) {
+                num = df.format(sizeDouble);
+                stringBuilder.append(num);
+                stringBuilder.append("KB");
+            } else if (sizeDouble < SIZE_KB) {
+                sizeDouble /= SIZE_B;
+                num = df.format(sizeDouble);
+                stringBuilder.append(num);
+                stringBuilder.append("MB");
+            } else if (sizeDouble < SIZE_MB) {
+                sizeDouble /= SIZE_KB;
+                num = df.format(sizeDouble);
+                stringBuilder.append(num);
+                stringBuilder.append("GB");
+            }
+        } else if (size instanceof Long) {
+            Long sizeLong = (Long) size;
+            if (sizeLong < SIZE_B) {
+                stringBuilder.append(sizeLong);
+                stringBuilder.append("KB");
+            } else if (sizeLong < SIZE_KB) {
+                sizeLong /= SIZE_B;
+                stringBuilder.append(sizeLong);
+                stringBuilder.append("MB");
+            } else if (sizeLong < SIZE_MB) {
+                sizeLong /= SIZE_KB;
+                stringBuilder.append(sizeLong);
+                stringBuilder.append("GB");
+            }
+        } else if (size instanceof Integer) {
+            Integer sizeInteger = (Integer) size;
+            if (sizeInteger < SIZE_B) {
+                stringBuilder.append(sizeInteger);
+                stringBuilder.append("KB");
+            } else if (sizeInteger < SIZE_KB) {
+                sizeInteger /= SIZE_B;
+                stringBuilder.append(sizeInteger);
+                stringBuilder.append("MB");
+            } else if (sizeInteger < SIZE_MB) {
+                sizeInteger /= SIZE_KB;
+                stringBuilder.append(sizeInteger);
+                stringBuilder.append("GB");
+            }
+        }
+        return stringBuilder.toString();
     }
 
     /**

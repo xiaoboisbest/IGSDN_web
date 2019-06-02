@@ -77,15 +77,14 @@ public class DocumentCommentsServiceImpl implements DocumentCommentsService {
         return documentComment2Mapper.selectByExample(example);
     }
 
-    public PageHelper computeDocumentCommentsTotalPage(Integer documentID, Integer pageNum, Integer userID) {
+    public PageHelper computeDocumentCommentsTotalPage(Integer userID, Integer documentID, Integer pageNum, Integer pageSize) {
         PageHelper pageHelper = new PageHelper();
-        List<DocumentComment> list = documentCommentMapper.selectByDocumentForPage(documentID, (pageNum - 1) * 20);
+        List<DocumentComment> list = documentCommentMapper.selectByDocumentForPage(documentID, (pageNum - 1) * pageSize, pageSize);
         TreeNode tree = getDocumentCommentsTree(list, userID);
         pageHelper.setData(tree.getChildren());
         DocumentCommentExample example = new DocumentCommentExample();
         DocumentCommentExample.Criteria criteria = example.createCriteria();
         criteria.andDocumentEqualTo(documentID);
-        documentCommentMapper.selectByExample(example);
         pageHelper.setTotal(documentCommentMapper.countByExample(example));
         pageHelper.setCurrentPage(pageNum);
         return pageHelper;
@@ -93,6 +92,7 @@ public class DocumentCommentsServiceImpl implements DocumentCommentsService {
 
     @Override
     public Boolean insertComments(DocumentComment2 documentComment2) {
+        System.out.println(documentComment2.toString());
         //先往
         if (documentComment2Mapper.insertSelective(documentComment2) != 0) {
             //documentComments2 已经插入
@@ -102,10 +102,10 @@ public class DocumentCommentsServiceImpl implements DocumentCommentsService {
     }
 
     @Override
-    public Boolean insertCommentsToUserInfo(Integer documentCommentId, Integer autoID) {
-        DocumentComment2 documentComment2 = documentComment2Mapper.selectByPrimaryKey(Integer.valueOf(documentCommentId));
+    public Boolean insertCommentsToUserInfo(Integer userId, Integer autoID) {
+       // DocumentComment2 documentComment2 = documentComment2Mapper.selectByPrimaryKey(Integer.valueOf(documentCommentId));
         UserInformation userInformation = new UserInformation();
-        userInformation.setReceiver(documentComment2.getCommentator());
+        userInformation.setReceiver(userId);
         userInformation.setCommentsId(autoID);
         short source = 2;
         userInformation.setSource(source);

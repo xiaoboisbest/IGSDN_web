@@ -10,13 +10,16 @@ import java.util.List;
 
 public interface DocumentCommentsService {
     public TreeNode<SimpleDocumentCommentDTO> getDocumentCommentsTree(List<DocumentComment> list, Integer userID);
+
     public List<DocumentComment2> listDocumentComments2ByPrimaryKey(Integer id, Boolean isSecond);
-    public PageHelper computeDocumentCommentsTotalPage(Integer documentID, Integer pageNum, Integer userID);
+
+    public PageHelper computeDocumentCommentsTotalPage(Integer userID, Integer documentID, Integer pageNum, Integer pageSize);
 
     Boolean insertComments(DocumentComment2 documentComment2);
 
     Boolean insertCommentsToUserInfo(Integer documentCommentId, Integer autoID);
 
     Boolean remarkDocument(DocumentComment documentComment);
+
     public Boolean insertRemarkDocumentToUserInfo(Integer documentID, Integer autoID);
 }

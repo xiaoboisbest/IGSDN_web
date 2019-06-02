@@ -14,7 +14,6 @@ import java.util.Map;
 
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8081")
 public class DocumentCommentsController {
     @Autowired
     DocumentCommentsService documentCommentsService;
@@ -23,9 +22,11 @@ public class DocumentCommentsController {
 
     @RequestMapping(value = "/listDocumentComments")
     public PageHelper listDocumentComments(@RequestBody Map<String, Integer> map) {
+        Integer userId = map.get("userId");
         Integer documentId = map.get("documentId");
         Integer pageNum = map.get("pageNum");
-        return documentCommentsService.computeDocumentCommentsTotalPage(documentId, pageNum, 3);
+        Integer pageSize = map.get("pageSize");
+        return documentCommentsService.computeDocumentCommentsTotalPage(userId, documentId, pageNum, pageSize);
     }
 
     @RequestMapping(value = "/replyDocumentComments")
@@ -36,7 +37,9 @@ public class DocumentCommentsController {
         try {
             DocumentComment2 documentComment2 = objectMapper.readValue(documentComment2String, DocumentComment2.class);
             if (userService.insertInformationRemark1(documentComment2)) {
-                if (documentCommentsService.insertCommentsToUserInfo(documentComment2.getCommentId(), documentComment2.getId()))
+
+
+                if (documentCommentsService.insertCommentsToUserInfo(documentComment2.getCommentator(), documentComment2.getId()))
                     return true;
             }
         } catch (Exception e) {

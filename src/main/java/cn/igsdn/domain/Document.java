@@ -7,7 +7,7 @@ public class Document {
 
     private String name;
 
-    private String size;
+    private Integer size;
 
     private Date uploadTime;
 
@@ -48,15 +48,15 @@ public class Document {
     }
 
     public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+        this.name = name;
     }
 
-    public String getSize() {
+    public Integer getSize() {
         return size;
     }
 
-    public void setSize(String size) {
-        this.size = size == null ? null : size.trim();
+    public void setSize(Integer size) {
+        this.size = size;
     }
 
     public Date getUploadTime() {
@@ -161,5 +161,27 @@ public class Document {
 
     public void setDownloadNum(Long downloadNum) {
         this.downloadNum = downloadNum;
+    }
+
+    @Override
+    public String toString() {
+        return "Document{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", size=" + size +
+                ", uploadTime=" + uploadTime +
+                ", lastUpdateTime=" + lastUpdateTime +
+                ", src='" + src + '\'' +
+                ", iconSrc='" + iconSrc + '\'' +
+                ", key1='" + key1 + '\'' +
+                ", key2='" + key2 + '\'' +
+                ", key3='" + key3 + '\'' +
+                ", intro='" + intro + '\'' +
+                ", isPublic=" + isPublic +
+                ", format=" + format +
+                ", uploader=" + uploader +
+                ", category=" + category +
+                ", downloadNum=" + downloadNum +
+                '}';
     }
 }

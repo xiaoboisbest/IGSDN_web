@@ -30,5 +30,5 @@ public interface DocumentCommentMapper {
 
     int updateByPrimaryKey(DocumentComment record);
 
-    List<DocumentComment> selectByDocumentForPage(Integer documentID, int i);
+    List<DocumentComment> selectByDocumentForPage(Integer documentID, int startNum, int pageSize);
 }

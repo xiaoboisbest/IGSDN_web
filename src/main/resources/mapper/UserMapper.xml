@@ -12,8 +12,8 @@
         <result column="age" jdbcType="VARCHAR" property="age"/>
         <result column="gender" jdbcType="BIT" property="gender"/>
         <result column="uname" jdbcType="VARCHAR" property="uname"/>
+        <result column="memory_size" jdbcType="BIGINT" property="memorySize"/>
     </resultMap>
-
     <resultMap id="UserInformationMap" type="cn.igsdn.dto.GenUserInformation">
         <id column="ID" jdbcType="INTEGER" property="ID"/>
         <result column="state" jdbcType="SMALLINT" property="state"/>
@@ -88,18 +88,17 @@
         </where>
     </sql>
     <sql id="Base_Column_List">
-    ID, password, gen_user_level, admin_user_level, tel, email, name, age, gender, uname
+    ID, password, gen_user_level, admin_user_level, tel, email, name, age, gender, uname, memory_size
   </sql>
     <sql id="Gen_User_DTO_Column_List">
     ID, gen_user_level, uname
   </sql>
-
     <sql id="Gen_User_Information_Column_List">
     i.`source`,
     i.`ID` ID,
      c.`is_identify` is_identify,
      i.`state` state,
-     u.`name` userName ,
+     u.`uname` userName ,
      u.`ID` userID,
      c.`content` content,
      d.`name` documentName,
@@ -107,10 +106,13 @@
      c.`remark_date` remark_date,
      c.`ID` as dc_id
   </sql>
-
     <sql id="Gen_User_Info_Column_List">
      name ,age,gender,uname,tel,email
   </sql>
+    <select id="selectPercentUsedMemory" resultType="java.lang.Double" parameterType="java.lang.Integer"
+            statementType="CALLABLE">
+        {CALL percent_used_memory(#{arg0})}
+    </select>
     <select id="selectGenUserDTOByPrimaryKey" resultType="cn.igsdn.dto.GenUserDTO">
         select
         <include refid="Gen_User_DTO_Column_List"/>
@@ -124,14 +126,18 @@
         where ID = #{arg0}
     </select>
     <select id="selectUserInformationByLoginName" resultMap="UserInformationMap">
-    (SELECT <include refid="Gen_User_Information_Column_List"/>
-       FROM user_information i , document_comments2 c,ig_user u , documents d
-       WHERE i.`source`=2  AND  i.`receiver` = #{arg0} AND i.`comments_id` = c.`ID` AND u.`ID` = c.`commentator` AND d.`ID` = c.`document`)
-    UNION
-    (SELECT <include refid="Gen_User_Information_Column_List"/>
+        (SELECT
+        <include refid="Gen_User_Information_Column_List"/>
+        FROM user_information i , document_comments2 c,ig_user u , documents d
+        WHERE i.`source`=2 AND i.`receiver` = #{arg0} AND i.`comments_id` = c.`ID` AND u.`ID` = c.`commentator` AND
+        d.`ID` = c.`document`)
+        UNION
+        (SELECT
+        <include refid="Gen_User_Information_Column_List"/>
         FROM user_information i , document_comments c ,ig_user u , documents d
-        WHERE i.`source`=1  AND  i.`receiver` = #{arg0} AND i.`comments_id` = c.`ID` AND u.`ID` = c.`commentator` AND d.`ID` = c.`document`)
-  </select>
+        WHERE i.`source`=1 AND i.`receiver` = #{arg0} AND i.`comments_id` = c.`ID` AND u.`ID` = c.`commentator` AND
+        d.`ID` = c.`document`)
+    </select>
     <select id="selectUserInformationByID" resultType="cn.igsdn.domain.UserInformation">
         SELECT * from user_information
         WHERE ID = #{arg0}
@@ -143,7 +149,7 @@ dc.`commentator` commentator,
 dc.`document` document,
 dc.`is_identify` isIdentify,
 dc.`remark_date` remarkDate,
-u.`name` commentatorName ,
+u.`uname` commentatorName ,
 d.`name` documentName
 FROM document_comments dc,ig_user u,documents d WHERE dc.`commentator` = u.`ID` AND dc.`document` = d.`ID` AND dc.ID= #{arg0}
     </select>
@@ -157,7 +163,7 @@ FROM document_comments dc,ig_user u,documents d WHERE dc.`commentator` = u.`ID` 
            dc.`comment_id` commentId,
            dc.`is_identify` isIdentify,
            dc.`remark_date` remarkDate,
-           u.`name`  commentatorName,
+           u.`uname`  commentatorName,
            d.`name` documentName
    FROM document_comments2 dc,ig_user u,documents d
    WHERE dc.`commentator` = u.`ID` AND dc.`document` = d.`ID` AND dc.ID = #{arg0}
@@ -168,7 +174,6 @@ FROM document_comments dc,ig_user u,documents d WHERE dc.`commentator` = u.`ID` 
     from ig_user
     where password = #{arg1} and (tel = #{arg0} or email = #{arg0})
   </select>
-
     <select id="selectByLoginName" parameterType="java.lang.String" resultType="java.lang.Integer">
     select count(*)
     from ig_user
@@ -198,7 +203,6 @@ FROM document_comments dc,ig_user u,documents d WHERE dc.`commentator` = u.`ID` 
     delete from ig_user
     where ID = #{id,jdbcType=INTEGER}
   </delete>
-
     <delete id="deleteUserInformationByID" parameterType="java.lang.Integer">
     delete from user_information
     where ID = #{arg0}
@@ -340,7 +344,6 @@ FROM document_comments dc,ig_user u,documents d WHERE dc.`commentator` = u.`ID` 
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
     </update>
-
     <update id="updatePasswordByLoginName" parameterType="map">
         update ig_user
         <set>
@@ -349,7 +352,6 @@ FROM document_comments dc,ig_user u,documents d WHERE dc.`commentator` = u.`ID` 
         where tel = #{arg0} or email = #{arg0}
 
     </update>
-
     <update id="updateUserInfoByLoginName" parameterType="map">
         update ig_user
         <set>
@@ -361,19 +363,15 @@ FROM document_comments dc,ig_user u,documents d WHERE dc.`commentator` = u.`ID` 
         where tel = #{arg0} or email = #{arg0}
 
     </update>
-
-
     <update id="updateInformationStateByID" parameterType="map">
         update user_information
         <set>
             state = #{arg1},
 
         </set>
-        where  ID =  #{arg0}
+        where ID = #{arg0}
 
     </update>
-
-
     <update id="updateByPrimaryKeySelective" parameterType="cn.igsdn.domain.User">
         update ig_user
         <set>
@@ -401,6 +399,9 @@ FROM document_comments dc,ig_user u,documents d WHERE dc.`commentator` = u.`ID` 
             <if test="gender != null">
                 gender = #{gender,jdbcType=BIT},
             </if>
+            <if test="uname != null">
+                uname = #{uname,jdbcType=VARCHAR},
+            </if>
         </set>
         where ID = #{id,jdbcType=INTEGER}
     </update>
@@ -416,4 +417,5 @@ FROM document_comments dc,ig_user u,documents d WHERE dc.`commentator` = u.`ID` 
       gender = #{gender,jdbcType=BIT}
     where ID = #{id,jdbcType=INTEGER}
   </update>
+
 </mapper>

@@ -13,7 +13,11 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 public class DocumentConverterUtils {
@@ -27,8 +31,11 @@ public class DocumentConverterUtils {
 
     public static BufferedImage getBufferedImage(String src) {
         try {
-            System.out.println(resource + src);
-            BufferedImage image = ImageIO.read(new File(resource + src));
+            StringBuilder stringBuilder = new StringBuilder(resource);
+            stringBuilder.append("\\icon\\");
+            stringBuilder.append(src);
+            System.out.println(stringBuilder.toString());
+            BufferedImage image = ImageIO.read(new File(stringBuilder.toString()));
             return image;
         } catch (IOException e) {
             e.printStackTrace();
@@ -107,6 +114,7 @@ public class DocumentConverterUtils {
                     ImageIO.write(image, "JPEG", new File(output + "\\" + i + ".jpg"));
                     list.add(image);
                 }
+                doc.close();
             }
             int startNum = (pageNum - 1) * pageSize;
             for (int i = 0; i < pageSize; i++) {
@@ -228,5 +236,102 @@ public class DocumentConverterUtils {
             }
         }
         return null;
+    }
+
+    /**
+     * 将base64转为文件，保存到指定路径
+     *
+     * @param base64
+     * @param userId
+     * @param isPublic
+     * @param type
+     * @param fileName
+     * @return
+     */
+    public static String Base64ToFile(String base64, Integer userId, Boolean isPublic, String type, String fileName, String suffix) {
+        StringBuilder filePath = new StringBuilder(resource);
+        filePath.append(type);
+        filePath.append("\\");
+        StringBuilder res = new StringBuilder();
+        res.append(isPublic ? "public" : "private");
+        res.append("\\users\\");
+        res.append(userId);
+        res.append("\\");
+
+        filePath.append(res);
+        File file = new File(filePath.toString());
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+        filePath.append(fileName);
+        res.append(fileName);
+        String[] temp = base64.split(";");
+        if (!StringUtils.isNotBlank(suffix)) {
+            suffix = "." + temp[0].split("/")[1];
+        }
+        filePath.append(suffix);
+        res.append(suffix);
+        try {
+            base64 = temp[1].split(",")[1];
+            System.out.println(base64);
+            deleteFile(filePath.toString());
+            System.out.println(filePath.toString());
+
+            Files.write(Paths.get(filePath.toString()), Base64.getMimeDecoder().decode(base64), StandardOpenOption.CREATE);
+
+//            Files.write(Paths.get(filePath.toString()), Base64.getDecoder().decode(base64), StandardOpenOption.CREATE);
+            System.out.println("文件创建成功！");
+            return res.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static void deleteImgFolder(Integer documentId) {
+        StringBuilder stringBuilder = new StringBuilder(resource);
+        stringBuilder.append("online\\img\\");
+        stringBuilder.append(documentId);
+        File dirFile = new File(stringBuilder.toString());
+        // 判断目录是否存在
+        if (!dirFile.exists() || !dirFile.isDirectory()) {
+            return;
+        }
+        File[] files = dirFile.listFiles();
+        for (int i = 0; i < files.length; i++) {
+            //删除子文件
+            if (files[i].isFile()) {
+                deleteFile(files[i].getAbsolutePath());
+            }
+        }
+
+        dirFile.delete(); //删除当前目录
+    }
+
+    public static void deleteFile(String src) {
+        File file = new File(src);
+        // 路径为文件且不为空则进行删除
+        if (file.isFile() && file.exists()) {
+            file.delete();
+        }
+    }
+
+    public static void deleteFile(String type, String src) {
+        StringBuilder stringBuilder = new StringBuilder(resource);
+        stringBuilder.append(type);
+        stringBuilder.append("\\");
+        stringBuilder.append(src);
+        File file = new File(stringBuilder.toString());
+        // 路径为文件且不为空则进行删除
+        if (file.isFile() && file.exists()) {
+            file.delete();
+        }
+    }
+
+    public static String getDocumentUrl(String src) {
+        StringBuilder stringBuilder = new StringBuilder(resource);
+        stringBuilder.append("document\\");
+        stringBuilder.append(src);
+        return stringBuilder.toString();
     }
 }

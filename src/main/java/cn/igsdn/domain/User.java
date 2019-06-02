@@ -20,6 +20,7 @@ public class User {
     private Boolean gender;
 
     private String uname;
+    private Long memorySize;
 
     public String getUname() {
         return uname;
@@ -99,6 +100,14 @@ public class User {
 
     public void setGender(Boolean gender) {
         this.gender = gender;
+    }
+
+    public Long getMemorySize() {
+        return memorySize;
+    }
+
+    public void setMemorySize(Long memorySize) {
+        this.memorySize = memorySize;
     }
 
     @Override

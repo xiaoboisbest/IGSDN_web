@@ -25,6 +25,8 @@ public class DocumentDTO {
 
     private String formatName;
 
+    private Integer uploaderId;
+
     private String uploaderName;
 
     private String intro;
@@ -34,6 +36,14 @@ public class DocumentDTO {
     private String downloadNum;
 
     public DocumentDTO() {
+    }
+
+    public Integer getUploaderId() {
+        return uploaderId;
+    }
+
+    public void setUploaderId(Integer uploaderId) {
+        this.uploaderId = uploaderId;
     }
 
     public Integer getFormatId() {

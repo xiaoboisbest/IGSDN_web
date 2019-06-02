@@ -82,4 +82,18 @@ public class DocumentComment2 {
     public void setDocument(Integer document) {
         this.document = document;
     }
+
+    @Override
+    public String toString() {
+        return "DocumentComment2{" +
+                "id=" + id +
+                ", content='" + content + '\'' +
+                ", isIdentify=" + isIdentify +
+                ", commentator=" + commentator +
+                ", commentId=" + commentId +
+                ", isSecond=" + isSecond +
+                ", remarkDate=" + remarkDate +
+                ", document=" + document +
+                '}';
+    }
 }

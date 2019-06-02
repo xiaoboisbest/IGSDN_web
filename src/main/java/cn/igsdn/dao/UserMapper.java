@@ -8,6 +8,8 @@ import org.springframework.dao.DataAccessException;
 import java.util.List;
 
 public interface UserMapper {
+    Double selectPercentUsedMemory(Integer userId);
+
     GenUserDTO selectGenUserDTOByPrimaryKey(String loginName, String password) throws DataAccessException;
 
     int updatePasswordByLoginName(String LoginName, String PassWord2);
@@ -17,7 +19,6 @@ public interface UserMapper {
     long countByExample(UserExample example);
 
     List<GenUserInformation> selectUserInformationByLoginName(String loginName);
-
 
     int deleteByExample(UserExample example);
 
